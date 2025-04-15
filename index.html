@@ -10,6 +10,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body, html {
       height: 100%;
+      background-image: url("https://media.giphy.com/media/jOEEcK432SuBXpIoyE/giphy.gif");
       background: black;
       color: white;
       font-family: 'Orbitron', sans-serif;
@@ -17,6 +18,8 @@
     }
     .intro {
       background-color: black;
+      background: black url("https://media.giphy.com/media/jOEEcK432SuBXpIoyE/giphy.gif") no-repeat center center;
+background-size: cover;
       height: 100vh;
       display: flex;
       justify-content: center;
@@ -25,9 +28,13 @@
       cursor: pointer;
       text-align: center;
       text-shadow: 0 0 10px white;
+      position: relative;
+      z-index: 2;
     }
     .profile-page {
       display: none;
+      background: black url("https://media.giphy.com/media/jOEEcK432SuBXpIoyE/giphy.gif") no-repeat center center;
+background-size: cover;      
       height: 100vh;
       text-align: center;
       padding: 40px 20px;
@@ -36,6 +43,35 @@
       align-items: center;
       justify-content: center;
     }
+    .intro,
+.profile-page {
+  position: relative;
+  overflow: hidden;
+}
+
+.intro::before,
+.profile-page::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.6); /* Opacité à régler selon le rendu */
+  z-index: 1;
+}
+
+.intro,
+.profile-page {
+  z-index: 2;
+}
+
+.intro > *,
+.profile-page > * {
+  position: relative;
+  z-index: 2; /* Texte au-dessus de l'overlay */
+}
+
     .profile-info img {
       width: 120px;
       height: 120px;
@@ -90,13 +126,14 @@
 </head>
 <body>
   <div class="intro" id="intro">
-    Clique pour entrer...
+    <div class="intro-text">Clique pour entrer...</div>
   </div>
+  
 
   <div class="profile-page" id="profile">
     <div class="profile-info">
       <img src="https://images-ext-1.discordapp.net/external/Rg6B6_a8CDM7ZDtQtQuiL1Y6qxKzyJhh6zh9ZwkvOnA/%3Fsize%3D512/https/cdn.discordapp.com/avatars/1028772712098844772/31d7bd54fee4c7c4af62ea15090e60dd.png?format=webp&quality=lossless" alt="Xertox" />
-      <h1>Xertox</h1>
+      <h1>Mungiki</h1>
       <p>Nouvel Album disponible !<br>"Vision Mod"</p>
 
       <h3 style="margin-top: 30px;">Ecouter sur :</h3>
