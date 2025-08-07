@@ -490,6 +490,19 @@ body::-webkit-scrollbar-thumb {
     <div id="weatherDesc"></div>
     <div id="weatherLocation"></div>
   </div>
+<!-- 🚩 À placer juste avant </body> -->
+<div id="shortcutModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background-color:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:1000;">
+  <div style="background:#1e293b; padding:20px 25px; border-radius:12px; width:300px; display:flex; flex-direction:column; gap:10px; box-shadow: 0 4px 20px rgba(0,0,0,0.4);">
+    <h3 style="margin:0; font-size:1.2rem; color:#93c5fd; text-align:center;">Ajouter un raccourci</h3>
+    <input id="shortcutName" type="text" placeholder="Nom" style="padding:8px; border-radius:8px; border:none; background:#334155; color:white;">
+    <input id="shortcutURL" type="url" placeholder="https://..." style="padding:8px; border-radius:8px; border:none; background:#334155; color:white;">
+    <div style="display:flex; justify-content:space-between; margin-top:10px;">
+      <button id="shortcutCancel" style="background:#ef4444; color:white; border:none; padding:8px 12px; border-radius:8px; cursor:pointer;">Annuler</button>
+      <button id="shortcutSave" style="background:#3b82f6; color:white; border:none; padding:8px 12px; border-radius:8px; cursor:pointer;">Ajouter</button>
+    </div>
+  </div>
+</div>
+
 
 <script>
   // --- Horloge numérique ---
@@ -646,91 +659,134 @@ function drawTime() {
       return 'Erreur';
     }
   }
-  const shortcutsKey = 'customShortcuts';
-  const shortcutLinksContainer = document.getElementById('shortcutLinks');
-  const addBtn = document.getElementById('addShortcutBtn');
+const shortcutsKey = 'customShortcuts';
+const shortcutLinksContainer = document.getElementById('shortcutLinks');
+const addBtn = document.getElementById('addShortcutBtn');
 
-  // Récupérer favicon via Google favicon API
-  function getFaviconUrl(url) {
-    try {
-      const hostname = new URL(url).hostname;
-      return `https://www.google.com/s2/favicons?domain=${hostname}&sz=32`;
-    } catch {
-      return '';
-    }
+// Modale
+const modal = document.getElementById('shortcutModal');
+const inputName = document.getElementById('shortcutName');
+const inputURL = document.getElementById('shortcutURL');
+const btnSave = document.getElementById('shortcutSave');
+const btnCancel = document.getElementById('shortcutCancel');
+
+// Récupérer favicon via Google favicon API
+function getFaviconUrl(url) {
+  try {
+    const hostname = new URL(url).hostname;
+    return `https://www.google.com/s2/favicons?domain=${hostname}&sz=32`;
+  } catch {
+    return '';
   }
+}
 
-  // Créer un lien raccourci avec icône + nom
-  function createShortcutElement(name, url) {
-    const a = document.createElement('a');
-    a.href = url;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    a.style.display = 'flex';
-    a.style.alignItems = 'center';
-    a.style.gap = '6px';
-    a.style.padding = '6px 10px';
-    a.style.background = '#1f2937';
-    a.style.color = '#eee';
-    a.style.borderRadius = '8px';
-    a.style.textDecoration = 'none';
-    a.style.fontWeight = '500';
-    a.style.minWidth = '250px';
+// Créer un lien raccourci avec icône + nom
+function createShortcutElement(name, url) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.target = '_blank';
+  a.rel = 'noopener noreferrer';
+  a.style.display = 'flex';
+  a.style.alignItems = 'center';
+  a.style.gap = '6px';
+  a.style.padding = '6px 10px';
+  a.style.background = '#1f2937';
+  a.style.color = '#eee';
+  a.style.borderRadius = '8px';
+  a.style.textDecoration = 'none';
+  a.style.fontWeight = '500';
+  a.style.minWidth = '250px';
 
-    const img = document.createElement('img');
-    img.src = getFaviconUrl(url);
-    img.alt = 'favicon';
-    img.style.width = '20px';
-    img.style.height = '20px';
-    img.style.borderRadius = '4px';
-    img.style.objectFit = 'contain';
+  const img = document.createElement('img');
+  img.src = getFaviconUrl(url);
+  img.alt = 'favicon';
+  img.style.width = '20px';
+  img.style.height = '20px';
+  img.style.borderRadius = '4px';
+  img.style.objectFit = 'contain';
 
-    const span = document.createElement('span');
-    span.textContent = name;
+  const span = document.createElement('span');
+  span.textContent = name;
 
-    a.appendChild(img);
-    a.appendChild(span);
+  a.appendChild(img);
+  a.appendChild(span);
 
-    return a;
-  }
+  return a;
+}
 
-  // Charger les raccourcis du localStorage et afficher
-  function loadShortcuts() {
-    shortcutLinksContainer.innerHTML = '';
-    const saved = localStorage.getItem(shortcutsKey);
-    if (!saved) return;
+// Charger les raccourcis du localStorage et afficher
+function loadShortcuts() {
+  shortcutLinksContainer.innerHTML = '';
+  const saved = localStorage.getItem(shortcutsKey);
+  if (!saved) return;
 
-    const shortcuts = JSON.parse(saved);
-    shortcuts.forEach(({name, url}) => {
-      const el = createShortcutElement(name, url);
-      shortcutLinksContainer.appendChild(el);
-    });
-  }
-
-  // Ajouter un raccourci (en le stockant aussi)
-  function addShortcut(name, url) {
-    const saved = localStorage.getItem(shortcutsKey);
-    const shortcuts = saved ? JSON.parse(saved) : [];
-    shortcuts.push({name, url});
-    localStorage.setItem(shortcutsKey, JSON.stringify(shortcuts));
-    loadShortcuts();
-  }
-
-  addBtn.addEventListener('click', () => {
-    const url = prompt('Entrez l’URL du raccourci (exemple : https://openai.com)');
-    if (!url) return alert('URL invalide.');
-
-    const name = prompt('Entrez un nom pour ce raccourci');
-    if (!name) return alert('Nom invalide.');
-
-    try {
-      new URL(url);
-    } catch {
-      return alert('URL invalide.');
-    }
-
-    addShortcut(name, url);
+  const shortcuts = JSON.parse(saved);
+  shortcuts.forEach(({ name, url }) => {
+    const el = createShortcutElement(name, url);
+    shortcutLinksContainer.appendChild(el);
   });
+}
+
+// Ajouter un raccourci (en le stockant aussi)
+function addShortcut(name, url) {
+  const saved = localStorage.getItem(shortcutsKey);
+  const shortcuts = saved ? JSON.parse(saved) : [];
+  shortcuts.push({ name, url });
+  localStorage.setItem(shortcutsKey, JSON.stringify(shortcuts));
+  loadShortcuts();
+}
+
+// Ouvre la modale
+addBtn.addEventListener('click', () => {
+  inputName.value = '';
+  inputURL.value = '';
+  modal.style.display = 'flex';
+  inputName.focus();
+});
+
+// Ferme la modale
+btnCancel.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+// Enregistre le raccourci
+btnSave.addEventListener('click', () => {
+  const name = inputName.value.trim();
+  const url = inputURL.value.trim();
+
+  if (!name || !url) {
+    alert("Nom ou URL invalide.");
+    return;
+  }
+
+  try {
+    new URL(url);
+  } catch {
+    alert("URL invalide.");
+    return;
+  }
+
+  addShortcut(name, url);
+  modal.style.display = 'none';
+});
+
+// Fermer modale sur clic hors du bloc
+window.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+
+// Fermer modale avec touche Échap
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    modal.style.display = 'none';
+  }
+});
+
+// Initialiser
+loadShortcuts();
+
 // --- Date actuelle ---
 function formatFrenchDate(date) {
   const options = { day: 'numeric', month: 'long', year: 'numeric' };
