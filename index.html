@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>MINIM</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 
 <style>
     html, body {
@@ -154,7 +155,7 @@ body::-webkit-scrollbar-thumb {
   }
 
 #shortcuts {
-  grid-column: 3 / 4;
+  grid-column: 3 / 5;
   grid-row: 3 / 4;
   display: flex;
   flex-direction: column;
@@ -228,44 +229,48 @@ body::-webkit-scrollbar-thumb {
 
   /* Nouveaux widgets */
 
-  /* Calculatrice */
-  #calculator {
-    grid-column: 5 / 7;
-    grid-row: 1 / 4;
-  }
-  #calc-display {
-    background: #1f2937;
-    border-radius: 12px;
-    padding: 10px;
-    font-size: 1.5rem;
-    color: white;
-    text-align: right;
-    margin-bottom: 10px;
-    user-select: none;
-  }
-  #calc-buttons {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-  }
-  #calc-buttons button {
-    background: #374151;
-    border: none;
-    border-radius: 12px;
-    color: white;
-    font-size: 1.2rem;
-    padding: 15px 0;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 0.2s;
-  }
-  #calc-buttons button:hover {
-    background: #6e6e6e;
-  }
+/* Calculatrice */
+#calculator {
+  grid-column: 6 / 7;
+  grid-row: 1 / 3;
+}
+
+#calc-display {
+  background: #1f2937;
+  border-radius: 8px;        /* Réduction du rayon */
+  padding: 6px;              /* Moins de padding */
+  font-size: 1rem;           /* Réduit de 1.5rem à 1rem */
+  color: white;
+  text-align: right;
+  margin-bottom: 8px;        /* Moins d'espace en dessous */
+  user-select: none;
+}
+
+#calc-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;                  /* Encore moins d'espace entre les boutons */
+}
+
+#calc-buttons button {
+  background: #374151;
+  border: none;
+  border-radius: 8px;        /* Plus petit rayon */
+  color: white;
+  font-size: 0.80rem;        /* Plus petit texte */
+  padding: 5px 0;            /* Réduction verticale */
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s;
+}
+
+#calc-buttons button:hover {
+  background: #6e6e6e;
+}
 
   /* Suivi sommeil */
   #sleepTracker {
-    grid-column: 4 / 5;
+    grid-column: 5 / 6;
     grid-row: 3 / 4;
   }
   #sleepHours {
@@ -301,7 +306,7 @@ body::-webkit-scrollbar-thumb {
   }
 #currentDate {
   grid-column: 5 / 6;
-  grid-row: 4 / 5;
+  grid-row: 1 / 3;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -368,8 +373,8 @@ body::-webkit-scrollbar-thumb {
 
   /* Météo locale */
   #weather {
-    grid-column: 6 / 7;
-    grid-row: 4 / 5;
+    grid-column: 6 /7;
+    grid-row: 3 / 4;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -391,6 +396,100 @@ body::-webkit-scrollbar-thumb {
     font-size: 1rem;
     color: #9ca3af;
   }
+#timerWidget .mode-btn {
+  background-color: #374151; /* gris foncé */
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  margin: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.3s ease, transform 0.1s ease;
+}
+
+#timerWidget .mode-btn:hover {
+  background-color: #4b5563; /* plus clair au hover */
+  transform: scale(1.03);
+}
+
+#timerWidget .mode-btn.active {
+  background-color: #2563eb; /* bleu vif pour actif */
+}
+
+#timerWidget button {
+  background-color: #2563eb; /* vert pour les boutons start/pause/reset */
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  font-size: 1.2rem;
+  margin: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.1s ease;
+}
+
+#timerWidget button:hover {
+  background-color: #143888;
+  transform: scale(1.05);
+}
+
+#timerWidget button:active {
+  transform: scale(0.97);
+}
+
+#timerWidget #startTimer {
+  background-color: #2563eb; /* vert */
+}
+
+#timerWidget #stopTimer {
+  background-color: #2563eb; /* orange */
+}
+
+#timerWidget #resetTimer {
+  background-color: #2563eb; /* rouge */
+}
+
+#timerWidget #startTimer:hover {
+  background-color: #143888;
+}
+
+#timerWidget #stopTimer:hover {
+  background-color: #143888;
+}
+
+#timerWidget #resetTimer:hover {
+  background-color: #143888;
+}
+#timerInputs input {
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  background: #1f2937;
+  color: white;
+  font-size: 1rem;
+  width: 80px;
+  margin-right: 5px;
+  text-align: center;
+  box-sizing: border-box;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#timerInputs input:last-child {
+  margin-right: 0;
+}
+
+#timerInputs input:focus {
+  outline: none;
+  background: #2563eb; /* bleu vif au focus */
+  box-shadow: 0 0 8px #2563eb;
+  color: white;
+}
+
+
 </style>
 </head>
 <body>
@@ -479,6 +578,28 @@ body::-webkit-scrollbar-thumb {
     <button id="todoAddBtn">Ajouter</button>
     <ul id="todoList"></ul>
   </div>
+<div class="bento" id="timerWidget" style="grid-column: 5 / 7; grid-row: 4 / 5;">
+  <div class="bento-header">
+    <i class="bi bi-alarm"></i> Minuteur / Chronomètre
+  </div>
+  <div style="text-align: center; margin-top: 10px;">
+    <button id="modeTimer" class="mode-btn active"><i class="bi bi-alarm"></i> Minuteur</button>
+    <button id="modeStopwatch" class="mode-btn"><i class="bi bi-stopwatch"></i> Chronomètre</button>
+  </div>
+  <div id="timerDisplay" style="font-size: 2rem; text-align: center; margin: 15px 0;">00:00</div>
+
+  <div id="timerInputs" style="text-align: center;">
+    <input type="number" id="minutesInput" min="0" placeholder="Minutes" style="width: 80px; margin-right: 5px;">
+    <input type="number" id="secondsInput" min="0" max="59" placeholder="Secondes" style="width: 80px;">
+  </div>
+
+  <div style="text-align: center; margin-top: 10px;">
+
+<button id="startTimer"><i class="bi bi-play-fill"></i></button>
+<button id="stopTimer"><i class="bi bi-pause-fill"></i></button>
+<button id="resetTimer"><i class="bi bi-stop-fill"></i></button>
+  </div>
+</div>
 
   <!-- Météo Locale -->
   <div class="bento" id="weather">
@@ -847,6 +968,90 @@ document.getElementById('dateDisplay').textContent = formatFrenchDate(new Date()
 
   let todos = JSON.parse(localStorage.getItem('todos') || '[]');
 
+let mode = 'timer'; // timer ou stopwatch
+let timerInterval;
+let timerRemaining = 0;
+let stopwatchTime = 0;
+
+const display = document.getElementById("timerDisplay");
+const minutesInput = document.getElementById("minutesInput");
+const secondsInput = document.getElementById("secondsInput");
+
+document.getElementById("modeTimer").addEventListener("click", () => switchMode('timer'));
+document.getElementById("modeStopwatch").addEventListener("click", () => switchMode('stopwatch'));
+document.getElementById("startTimer").addEventListener("click", start);
+document.getElementById("stopTimer").addEventListener("click", stop);
+document.getElementById("resetTimer").addEventListener("click", reset);
+
+function switchMode(newMode) {
+  mode = newMode;
+  document.getElementById("modeTimer").classList.toggle("active", mode === 'timer');
+  document.getElementById("modeStopwatch").classList.toggle("active", mode === 'stopwatch');
+  document.getElementById("timerInputs").style.display = mode === 'timer' ? 'block' : 'none';
+  reset();
+}
+
+function start() {
+  stop();
+
+  if (mode === 'timer') {
+    const mins = parseInt(minutesInput.value, 10) || 0;
+    const secs = parseInt(secondsInput.value, 10) || 0;
+
+    timerRemaining = mins * 60 + secs;
+
+    if (timerRemaining <= 0) {
+      updateDisplay(0);
+      return;
+    }
+
+    updateDisplay(timerRemaining);
+
+    timerInterval = setInterval(() => {
+      timerRemaining--;
+      updateDisplay(timerRemaining);
+      if (timerRemaining <= 0) {
+        clearInterval(timerInterval);
+        playBeep();
+      }
+    }, 1000);
+  } else {
+    timerInterval = setInterval(() => {
+      stopwatchTime++;
+      updateDisplay(stopwatchTime);
+    }, 1000);
+  }
+}
+
+function stop() {
+  clearInterval(timerInterval);
+}
+
+function reset() {
+  stop();
+  if (mode === 'timer') {
+    const mins = parseInt(minutesInput.value, 10) || 0;
+    const secs = parseInt(secondsInput.value, 10) || 0;
+    timerRemaining = mins * 60 + secs;
+    updateDisplay(timerRemaining);
+  } else {
+    stopwatchTime = 0;
+    updateDisplay(0);
+  }
+}
+
+function updateDisplay(seconds) {
+  const min = Math.floor(seconds / 60).toString().padStart(2, '0');
+  const sec = (seconds % 60).toString().padStart(2, '0');
+  display.textContent = `${min}:${sec}`;
+}
+
+function playBeep() {
+  const beep = new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+  beep.play();
+}
+
+
   function renderTodos() {
     todoList.innerHTML = '';
     todos.forEach((todo, idx) => {
@@ -1059,9 +1264,35 @@ options: {
 
   });
 }
+function updateDateNow() {
+  const now = new Date();
+  const formattedDate = now.toLocaleDateString('fr-FR', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+
+  const dateNowElement = document.getElementById("dateNow");
+  if (dateNowElement) {
+    dateNowElement.textContent = formattedDate;
+  }
+}
 
 // Initialisation
 renderChart();
+let currentDay = new Date().getDate();
+
+setInterval(() => {
+  const now = new Date();
+  const newDay = now.getDate();
+
+  if (newDay !== currentDay) {
+    currentDay = newDay;
+    generateCalendar(); // met à jour le calendrier
+    updateDateNow();    // met à jour la date du widget
+  }
+}, 60000); // toutes les minutes
 
 </script>
 
